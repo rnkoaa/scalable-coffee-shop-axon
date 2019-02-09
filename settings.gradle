@@ -1,0 +1,5 @@
+rootProject.name = 'coffee-shop'
+
+include 'beans'
+include 'barista'
+include 'orders'
