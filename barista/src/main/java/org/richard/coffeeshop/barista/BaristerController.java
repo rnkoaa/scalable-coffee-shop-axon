@@ -1,6 +1,7 @@
 package org.richard.coffeeshop.barista;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,8 @@ import java.util.*;
 @RequestMapping("/baristas")
 public class BaristerController {
 
-
     private final CommandGateway commandGateway;
     private final QueryGateway queryGateway;
-
-    Map<String, CreateBaristerCommand> commands = new HashMap<>();
 
     public BaristerController(CommandGateway commandGateway, QueryGateway queryGateway) {
         this.commandGateway = commandGateway;
@@ -35,8 +33,7 @@ public class BaristerController {
                 .lastName(request.get("last_name"))
                 .build();
 
-//        commands.put(createBaristerCommand.getId(), createBaristerCommand);
-        commandGateway.send(commandGateway);
+        commandGateway.send(createBaristerCommand);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Location", "/barista/" + createBaristerCommand.getId());
@@ -47,7 +44,8 @@ public class BaristerController {
     }
 
     @GetMapping({"/", ""})
-    public Collection<CreateBaristerCommand> getAllBaristas() {
-        return commands.values();
+    public List<Barista> getAllBaristas() {
+        return queryGateway.query(new FindAllBaristas(),
+                ResponseTypes.multipleInstancesOf(Barista.class)).join();
     }
 }

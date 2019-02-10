@@ -1,5 +1,7 @@
 package org.richard.coffeeshop.barista;
 
+//import org.axonframework.modelling.command.TargetAggregateIdentifier;
+
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import java.time.OffsetDateTime;
@@ -9,13 +11,17 @@ import java.util.Objects;
  * Created by 2019-02-09.
  */
 public class CreateBaristerCommand {
-    @TargetAggregateIdentifier
-    private final String id;
-    private final String firstName;
-    private final String lastName;
-    private final OffsetDateTime createdAt = OffsetDateTime.now();
 
-    CreateBaristerCommand(String id, String firstName, String lastName) {
+    @TargetAggregateIdentifier
+    private String id;
+    private String firstName;
+    private String lastName;
+    private OffsetDateTime createdAt = OffsetDateTime.now();
+
+    protected CreateBaristerCommand() {
+    }
+
+    private CreateBaristerCommand(String id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
