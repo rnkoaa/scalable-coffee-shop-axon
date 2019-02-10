@@ -35,16 +35,20 @@ dependencies {
         exclude group: "javax.annotation", module: "javax.annotation-api"
 	}
 
+	implementation("org.axonframework:axon-spring-boot-starter:4.0.3")
 	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180830.0359'
 
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 	compileOnly 'org.projectlombok:lombok'
+//	provided group: 'org.immutables', name: 'value', version: '2.7.5'
+
 	// testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	compile group: 'org.jboss.spec.javax.transaction', name: 'jboss-transaction-api_1.2_spec', version: '1.1.1.Final'
     compile group: 'org.javassist', name: 'javassist', version: '3.24.1-GA'
 	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+	testImplementation("org.axonframework:axon-test:4.0.3")
 
 	components {
         withModule('org.springframework:spring-beans') {

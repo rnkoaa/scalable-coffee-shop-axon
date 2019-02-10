@@ -9,7 +9,7 @@ import org.junit.Test;
 
 // @RunWith(SpringRunner.class)
 // @SpringBootTest
-public class BaristaApplicationTests {
+public class BaristerApplicationTests {
 
 	@Test
 	public void contextLoads() {
