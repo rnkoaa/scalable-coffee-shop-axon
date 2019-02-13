@@ -1,0 +1,60 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.2.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+
+ext.moduleName = 'org.richard.coffeeshop.beans'
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+// group = 'org.richard.coffeeshop'
+// version = '0.0.1-SNAPSHOT'
+// sourceCompatibility = '11'
+
+bootJar {
+    mainClassName = 'org.richard.coffeeshop.beans.BeansApplication'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	  implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
+        exclude group: "javax.annotation", module: "javax.annotation-api"
+	}
+
+	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180830.0359'
+
+	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+	compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+	compileOnly 'org.projectlombok:lombok'
+	// testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	compile group: 'org.jboss.spec.javax.transaction', name: 'jboss-transaction-api_1.2_spec', version: '1.1.1.Final'
+    compile group: 'org.javassist', name: 'javassist', version: '3.24.1-GA'
+	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
+	components {
+        withModule('org.springframework:spring-beans') {
+            allVariants {
+                withDependencyConstraints {
+                    // Need to patch constraints because snakeyaml is an optional dependency
+                    it.findAll { it.name == 'snakeyaml' }.each { it.version { strictly '1.19' } }
+                }
+            }
+        }
+	}
+}
+
